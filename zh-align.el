@@ -5,11 +5,9 @@
 ;; URL: https://github.com/chen-chao/emacs-zh-align
 
 ;; Usage:
-;;   (setq zh-align-faces '(org-table))
-;;   (zh-align-frame-faces)
-;; For Emacs daemon:
 ;;   (add-hook 'after-make-frame-functions #'zh-align-frame-faces)
 ;;   (add-hook 'window-setup-hook #'zh-align-frame-faces)
+;;   (push 'face zh-align-faces)
 
 ;;; Code:
 
@@ -100,22 +98,21 @@ English font"
     fset-twice)
   )
 
-(defun zh-align--faces-fontset (faces)
-  "Set faces' fontset to zh-align--fontset"
+(defun zh-align--set-face (faces)
+  "Apply zh-align--fontset to FACES list."
   (let ((fontset (zh-align--fontset)))
     (dolist (face faces)
       (set-face-attribute face nil :fontset fontset)))
   )
 
-;;;###autoload
-(defun zh-align-frame-faces (&optional frame)
-  "Apply zh-align--faces-fontset to faces in frame"
+(defun zh-align-set-frame-faces (&optional frame)
+  "Apply zh-align--set-face to faces in frame"
   (if frame
       (with-selected-frame frame
 	(when (display-graphic-p)
-	  (zh-align--faces-fontset zh-align-faces)))
+	  (zh-align--set-face zh-align-faces)))
     (when (display-graphic-p)
-      (zh-align--faces-fontset zh-align-faces)))
+      (zh-align--set-face zh-align-faces)))
   (redisplay t)
   )
 

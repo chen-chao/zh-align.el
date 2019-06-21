@@ -10,13 +10,23 @@ fontset, 其中汉字字符的宽度会等于两倍英文字符. 然后可以根
 
 ``` emacs-lisp
 (setq zh-align-faces '(org-table)) ;; or other faces
-(zh-align-frame-faces)
+(zh-align-set-frame-faces)
 ```
 
-如果是Emacs daemon:
+由于加载顺序的不同, zh-align 可能无法获取正确的字号, 可以参考:
 
 ``` emacs-lisp
-(setq zh-align-faces '(org-table)) ;; or other faces
-(add-hook 'after-make-frame-functions #'zh-align-frame-faces)
-(add-hook 'window-setup-hook #'zh-align-frame-faces)
+(use-package zh-align
+	:load-path "site-lisp/emacs-zh-align/"
+	:demand t
+	:init
+	(add-hook 'after-make-frame-functions #'zh-align-set-frame-faces)
+	(add-hook 'window-setup-hook #'zh-align-set-frame-faces)
+)
+
+(use-package org
+	:config
+	;; other settings
+	(push 'org-table zh-align-faces)
+)
 ```
