@@ -20,6 +20,7 @@ fontset, 其中汉字字符的宽度会等于两倍英文字符. 然后可以根
 	:load-path "site-lisp/emacs-zh-align/"
 	:demand t
 	:init
+	(setq zh-align-charsets '(han kana cjk-misc))
 	(add-hook 'after-make-frame-functions #'zh-align-set-frame-faces)
 	(add-hook 'window-setup-hook #'zh-align-set-frame-faces)
 )
