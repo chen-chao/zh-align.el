@@ -29,12 +29,12 @@
 
 (defvar zh-align--former-char-width nil)
 
-(defun zh-align--screen-char-width (s) 
+(defun zh-align--screen-char-width (s)
   "Return the width in pixels of character s in the current
 window's default font. If the font is mono-spaced, this will also
 be the width of all other printable characters."
   (let ((window (selected-window))
-        (remapping face-remapping-alist))
+	(remapping face-remapping-alist))
     (with-temp-buffer
       (make-local-variable 'face-remapping-alist)
       (setq face-remapping-alist remapping)
@@ -99,7 +99,7 @@ specified, the fontset's font size will be changed."
     (while (< (zh-align--screen-char-width char) width)
       (setq tempsize (1+ tempsize))
       (zh-align--set-fontset-size fset charset fontname tempsize))
-    
+
     (while (> (zh-align--screen-char-width char) width)
       (setq tempsize (1- tempsize))
       (zh-align--set-fontset-size fset charset fontname tempsize))
@@ -142,22 +142,13 @@ English font"
     fset-twice)
   )
 
-(defun zh-align--set-face (faces)
-  "Apply zh-align--fontset to FACES list."
+(defun zh-align-set-faces (faces)
+  "Apply zh-align--fontset to FACE or FACES list."
   (let ((fontset (zh-align--fontset zh-align-charsets)))
-    (dolist (face faces)
-      (set-face-attribute face nil :fontset fontset)))
-  )
-
-(defun zh-align-set-frame-faces (&optional frame)
-  "Apply zh-align--set-face to faces in frame"
-  (if frame
-      (with-selected-frame frame
-	(when (display-graphic-p)
-	  (zh-align--set-face zh-align-faces)))
-    (when (display-graphic-p)
-      (zh-align--set-face zh-align-faces)))
-  (redisplay t)
+    (if (listp faces)
+	(dolist (face faces)
+	  (set-face-attribute face nil :fontset fontset))
+      (set-face-attribute faces nil :fontset fontset)))
   )
 
 (provide 'zh-align)
