@@ -9,25 +9,21 @@ fontset, 其中汉字字符的宽度会等于两倍英文字符. 然后可以根
 种`face`的属性. 如:
 
 ``` emacs-lisp
-(setq zh-align-faces '(org-table)) ;; or other faces
-(zh-align-set-frame-faces)
-```
-
-由于加载顺序的不同, zh-align 可能无法获取正确的字号, 可以参考:
-
-``` emacs-lisp
 (use-package zh-align
-	:load-path "site-lisp/emacs-zh-align/"
-	:demand t
-	:init
-	(setq zh-align-charsets '(han kana cjk-misc))
-	(add-hook 'after-make-frame-functions #'zh-align-set-frame-faces)
-	(add-hook 'window-setup-hook #'zh-align-set-frame-faces)
-)
+  :load-path "path/to/emacs-zh-align/"
+  :demand t
+  :init
+  (setq zh-align-charsets '(han kana cjk-misc))
+  )
 
 (use-package org
-	:config
-	;; other settings
-	(push 'org-table zh-align-faces)
-)
+  :config
+  (zh-align-set-faces '(org-table))
+  )
+
+(use-package elfeed
+  :config
+  (zh-align-set-faces '(elfeed-search-title-face
+			elfeed-search-feed-face))
+  )
 ```

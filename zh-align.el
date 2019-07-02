@@ -17,17 +17,10 @@
   :prefix "zh-align-"
   :group 'align)
 
-(defcustom zh-align-faces nil
-  "Specify faces to apply zh-align--fontset"
-  :group 'zh-align
-  :type 'list)
-
 (defcustom zh-align-charsets nil
   "Specify charsets or scripts to create zh-align--fontset"
   :group 'zh-align
   :type 'list)
-
-(defvar zh-align--former-char-width nil)
 
 (defun zh-align--screen-char-width (s)
   "Return the width in pixels of character s in the current
