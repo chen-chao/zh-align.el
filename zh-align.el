@@ -6,9 +6,7 @@
 
 ;; Usage:
 ;;   (setq zh-align-charsets '(han kana cjk-misc))
-;;   (add-hook 'after-make-frame-functions #'zh-align-frame-faces)
-;;   (add-hook 'window-setup-hook #'zh-align-frame-faces)
-;;   (push 'face zh-align-faces)
+;;   (zh-align-set-faces '(faces))
 
 ;;; Code:
 
