@@ -27,3 +27,18 @@ fontset, 其中汉字字符的宽度会等于两倍英文字符. 然后可以根
 			elfeed-search-feed-face))
   )
 ```
+
+## 已知问题
+
+如果使用
+
+``` emacs-lisp
+(add-to-list 'default-frame-alist '(font . "fontset"))
+```
+
+设置 frame 参数, 那么 zh-align 在启动时将无法读取到预期的字体设置. 建
+议通过 face-attribute 来设置Emacs的字体大小:
+
+``` emacs-lisp
+(set-face-attribute 'default nil :height 200)
+```
