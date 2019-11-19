@@ -10,22 +10,30 @@ fontset, 其中汉字字符的宽度会等于两倍英文字符. 然后可以根
 
 ``` emacs-lisp
 (use-package zh-align
-  :load-path "path/to/emacs-zh-align/"
-  :demand t
-  :init
-  (setq zh-align-charsets '(han kana cjk-misc))
-  )
+  :load-path "path/to/emacs-zh-align/")
 
 (use-package org
   :config
-  (zh-align-set-faces '(org-table))
-  )
+  (zh-align-set-faces '(org-table)))
 
 (use-package elfeed
   :config
   (zh-align-set-faces '(elfeed-search-title-face
-			elfeed-search-feed-face))
-  )
+                        elfeed-search-feed-face)))
+```
+
+## 设置
+
+#### 指定需要调整字符宽度的字符集
+
+``` emacs-lisp
+(setq zh-align-charsets '(han kana cjk-misc)) ;; default
+```
+
+#### 指定字符宽度相对于英文字符的比例
+
+``` emacs-lisp
+(setq zh-align-fontwidth-ratio 2) ;; default
 ```
 
 ## 已知问题

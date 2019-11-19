@@ -1,4 +1,4 @@
-;;; zh-align.el, let Chinese font's alignment be compatible with English font in Emacs"
+;;; zh-align.el, let Chinese font's alignment be compatible with English font in Emacs
 ;; Keywords: Chinese, font, alignment
 ;; Author: Chen Chao <cchao.im@gmail.com>
 ;; License: MIT
@@ -15,10 +15,15 @@
   :prefix "zh-align-"
   :group 'align)
 
-(defcustom zh-align-charsets nil
+(defcustom zh-align-charsets '(han kana cjk-misc)
   "Specify charsets or scripts to create zh-align--fontset"
   :group 'zh-align
   :type 'list)
+
+(defcustom zh-align-fontwidth-ratio 2
+  "Specify the ratio of Chinese font width to English font"
+  :group 'zh-align
+  :type 'number)
 
 (defun zh-align--screen-char-width (s)
   "Return the width in pixels of character s in the current
@@ -55,8 +60,7 @@ be the width of all other printable characters."
 	(if (setq ch (decode-char charset (+ (* row 256) i)))
 	    (throw 'loop ch)
 	  (setq i (1+ i)))))
-    ch)
-  )
+    ch))
 
 (defun zh-align--get-char-from-script (script)
   "Get an example character from a given script(e.g. han, kana)"
@@ -67,10 +71,8 @@ be the width of all other printable characters."
 	  (setq value (cdr entry))
 	  (if (vectorp value)
 	      (aref value 0)
-	    (car value)
-	    ))
-      nil))
-  )
+	    (car value)))
+      nil)))
 
 (defun zh-align--get-char (script-or-charset)
   "Get an example character from a given script or charset"
@@ -97,15 +99,13 @@ specified, the fontset's font size will be changed."
 
     (unless action
       (zh-align--set-fontset-size fset charset fontname fontsize))
-    tempsize)
-  )
+    tempsize))
 
 (defun zh-align-set-as-twice-en-width ()
   "Set global Chinese font's width as twice of English font"
   (interactive)
   (let ((expected-width (* 2 (zh-align--screen-char-width ?m))))
-    (zh-align--fontset-size-at-width ?中 'han expected-width t))
-  )
+    (zh-align--fontset-size-at-width ?中 'han expected-width t)))
 
 (defun zh-align-set-as-en-height ()
   "set global Chinese font's height as english font"
@@ -114,13 +114,12 @@ specified, the fontset's font size will be changed."
 	 (font (split-string (face-font 'default nil ?中) "-"))
 	 (fontname (nth 2 font))
 	 (fontsize (zh-align--screen-char-height ?m)))
-    (zh-align--set-fontset-size fset 'han fontname fontsize))
-  )
+    (zh-align--set-fontset-size fset 'han fontname fontsize)))
 
 (defun zh-align--fontset (charsets)
   "Export a fontset whose Chinese font's width is twice of
 English font"
-  (let* ((expected-width (* 2 (zh-align--screen-char-width ?m)))
+  (let* ((expected-width (* zh-align-fontwidth-ratio (zh-align--screen-char-width ?m)))
 	 (fset (frame-parameter nil 'font))
 	 (fset-string (replace-regexp-in-string "-iso.*$" "-fontset-zhalign" fset))
 	 (fset-twice (create-fontset-from-fontset-spec fset-string)))
@@ -130,16 +129,17 @@ English font"
 	     (charset-font (split-string (face-font 'default nil char) "-"))
 	     (charset-fontname (nth 2 charset-font)))
 	(zh-align--set-fontset-size fset-twice charset charset-fontname charset-fontsize)))
-    fset-twice)
-  )
+    fset-twice))
 
+;;;###autoload
 (defun zh-align-set-faces (faces)
   "Apply zh-align--fontset to FACE or FACES list."
   (let ((fontset (zh-align--fontset zh-align-charsets)))
     (if (listp faces)
 	(dolist (face faces)
 	  (set-face-attribute face nil :fontset fontset))
-      (set-face-attribute faces nil :fontset fontset)))
-  )
+      (set-face-attribute faces nil :fontset fontset))))
 
 (provide 'zh-align)
+
+;;; zh-align.el ends here
