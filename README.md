@@ -10,7 +10,7 @@ fontset, 其中汉字字符的宽度会等于两倍英文字符. 然后可以根
 
 ``` emacs-lisp
 (use-package zh-align
-  :load-path "path/to/emacs-zh-align/")
+  :load-path "path/to/zh-align.el/")
 
 (use-package org
   :config
