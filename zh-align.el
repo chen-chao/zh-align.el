@@ -101,21 +101,6 @@ specified, the fontset's font size will be changed."
       (zh-align--set-fontset-size fset charset fontname fontsize))
     tempsize))
 
-(defun zh-align-set-as-twice-en-width ()
-  "Set global Chinese font's width as twice of English font"
-  (interactive)
-  (let ((expected-width (* 2 (zh-align--screen-char-width ?m))))
-    (zh-align--fontset-size-at-width ?中 'han expected-width t)))
-
-(defun zh-align-set-as-en-height ()
-  "set global Chinese font's height as english font"
-  (interactive)
-  (let* ((fset (frame-parameter nil 'font))
-	 (font (split-string (face-font 'default nil ?中) "-"))
-	 (fontname (nth 2 font))
-	 (fontsize (zh-align--screen-char-height ?m)))
-    (zh-align--set-fontset-size fset 'han fontname fontsize)))
-
 (defun zh-align--fontset (charsets)
   "Export a fontset whose Chinese font's width is twice of
 English font"
