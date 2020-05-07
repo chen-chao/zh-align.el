@@ -134,11 +134,12 @@ English font"
 ;;;###autoload
 (defun zh-align-set-faces (faces)
   "Apply zh-align--fontset to FACE or FACES list."
-  (let ((fontset (zh-align--fontset zh-align-charsets)))
-    (if (listp faces)
-	(dolist (face faces)
-	  (set-face-attribute face nil :fontset fontset))
-      (set-face-attribute faces nil :fontset fontset))))
+  (when (display-graphic-p)
+    (let ((fontset (zh-align--fontset zh-align-charsets)))
+      (if (listp faces)
+	  (dolist (face faces)
+	    (set-face-attribute face nil :fontset fontset))
+	(set-face-attribute faces nil :fontset fontset)))))
 
 (provide 'zh-align)
 
